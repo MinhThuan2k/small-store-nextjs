@@ -6,8 +6,6 @@ import { Card, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { cn } from '@/lib/utils'
-import { loginSuccess } from '@/redux/actions/authActions'
-import { useReduxDispatch } from '@/redux/hooks'
 import { authService, LoginPayload } from '@/services/auth.service'
 import { useMutation } from '@tanstack/react-query'
 import { Lock, Mail } from 'lucide-react'
@@ -21,8 +19,6 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const dispatch = useReduxDispatch()
-
   const {
     register,
     handleSubmit,
@@ -32,7 +28,6 @@ export function LoginForm({
   const mutation = useMutation({
     mutationFn: (data: LoginPayload) => authService.login(data),
     onSuccess: (data) => {
-      dispatch(loginSuccess(data))
       toast.success('Đăng nhập thành công!', {
         autoClose: 1000,
         onClose: () => {

@@ -7,7 +7,7 @@ export default {
         primary: '#ff49db'
       },
       fontFamily: {
-        blink: ['BlinkMacSystemFont-Thin', 'sans-serif']
+        manrope: ['var(--font-manrope)', 'sans-serif']
       }
     }
   },
