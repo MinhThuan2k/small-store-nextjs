@@ -7,10 +7,7 @@ export async function POST({ request }: { request: NextRequest }) {
 
   const sessionToken = raw?.session_token
   if (!sessionToken) {
-    return Response.json(
-      { massage: 'UNAUTHORIZED!' },
-      { status: HTTP_STATUS.UNAUTHORIZED }
-    )
+    return Response.json({ massage: 'UNAUTHORIZED!' }, { status: HTTP_STATUS.UNAUTHORIZED })
   }
 
   const cookie = await cookies()
@@ -21,5 +18,5 @@ export async function POST({ request }: { request: NextRequest }) {
     path: '/'
   })
 
-  return Response.json({})
+  return Response.json({ massage: 'Authenticated' }, { status: HTTP_STATUS.OK })
 }
