@@ -1,4 +1,4 @@
-import { BaseService } from './base.service'
+import http from '@/lib/http'
 
 export interface UserProfile {
   user: {
@@ -8,9 +8,9 @@ export interface UserProfile {
   }
 }
 
-class UserService extends BaseService {
+class UserService {
   profile() {
-    return this.get<UserProfile>('/api/v1/users/profile')
+    return http.get<UserProfile>('/api/v1/users/profile')
   }
 }
 

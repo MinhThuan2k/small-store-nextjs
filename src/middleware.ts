@@ -1,14 +1,13 @@
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const privateRoute = ['admin/items']
-const authRoute = ['sign-in', 'register']
+const privateRoute = ['/admin']
+const authRoute = ['/sign-in', '/register']
 
-export async function middleware(request: NextRequest) {
+export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const cookie = await cookies()
-  const sessionToken = cookie.get('sessionToken')
+  const sessionToken = request.cookies.get('sessionToken')
+  console.log(pathname)
 
   if (authRoute.some((path) => pathname.startsWith(path)) && sessionToken) {
     return NextResponse.redirect(new URL('/home', request.url))
@@ -22,5 +21,20 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [...authRoute, ...privateRoute]
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    {
+      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+      missing: [
+        { type: 'header', key: 'next-router-prefetch' },
+        { type: 'header', key: 'purpose', value: 'prefetch' }
+      ]
+    }
+  ]
 }

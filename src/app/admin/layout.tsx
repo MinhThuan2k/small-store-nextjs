@@ -3,14 +3,9 @@
 import { AppProviders } from '@/app/AppProviders'
 import HeaderBar from '@/components/layouts/HeaderBar'
 import Sidebar from '@/components/layouts/Sidebar'
-import { Card } from '@/components/ui'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
-export default function AdminLayout({
-  children
-}: {
-  children: React.ReactNode
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [page, setPage] = useState('dashboard')
 
   return (

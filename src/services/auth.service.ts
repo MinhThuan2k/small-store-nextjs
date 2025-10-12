@@ -1,4 +1,4 @@
-import { BaseService } from './base.service'
+import http from '@/lib/http'
 
 export interface LoginPayload {
   email: string
@@ -14,9 +14,9 @@ export interface AuthResponse {
   }
 }
 
-class AuthService extends BaseService {
+class AuthService {
   login(payload: LoginPayload) {
-    return this.post<AuthResponse>('/api/v1/sign-in', payload)
+    return http.post<AuthResponse>('/api/v1/sign-in', payload)
   }
 }
 

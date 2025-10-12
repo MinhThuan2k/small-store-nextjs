@@ -15,10 +15,7 @@ import Image from 'next/image'
 import { redirect, RedirectType } from 'next/navigation'
 import { motion } from 'framer-motion'
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
+export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
   const {
     register,
     handleSubmit,
@@ -59,30 +56,21 @@ export function LoginForm({
               <form
                 className={cn(
                   'p-6 md:p-8 bg-white transition-opacity',
-                  mutation.isPending || mutation.isSuccess
-                    ? 'pointer-events-none opacity-60'
-                    : ''
+                  mutation.isPending || mutation.isSuccess ? 'pointer-events-none opacity-60' : ''
                 )}
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col items-center text-center">
-                    <h1 className="text-3xl font-bold text-gray-900">
-                      Welcome back
-                    </h1>
-                    <p className="text-muted-foreground">
-                      Login to your Acme Inc account
-                    </p>
+                    <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
+                    <p className="text-muted-foreground">Login to your Acme Inc account</p>
                   </div>
 
                   {/* Email */}
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <div className="relative">
-                      <Mail
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        size={18}
-                      />
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                       <Input
                         {...register('email', {
                           required: 'Email không được bỏ trống'
@@ -93,11 +81,7 @@ export function LoginForm({
                         className="pl-10 transition focus:ring-2 focus:ring-primary focus:outline-none"
                       />
                     </div>
-                    {errors.email && (
-                      <p className="text-red-500 text-sm">
-                        {errors.email.message}
-                      </p>
-                    )}
+                    {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                   </div>
 
                   {/* Password */}
@@ -106,10 +90,7 @@ export function LoginForm({
                       <Label htmlFor="password">Password</Label>
                     </div>
                     <div className="relative">
-                      <Lock
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                        size={18}
-                      />
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                       <Input
                         {...register('password', {
                           required: 'Mật khẩu là bắt buộc'
@@ -119,16 +100,9 @@ export function LoginForm({
                         className="pl-10 transition focus:ring-2 focus:ring-primary focus:outline-none"
                       />
                     </div>
-                    {errors.password && (
-                      <p className="text-red-500 text-sm">
-                        {errors.password.message}
-                      </p>
-                    )}
+                    {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
                     <div className="flex items-end justify-end">
-                      <a
-                        href="#"
-                        className="text-sm text-primary hover:underline"
-                      >
+                      <a href="#" className="text-sm text-primary hover:underline">
                         Forgot your password?
                       </a>
                     </div>
@@ -143,16 +117,10 @@ export function LoginForm({
                   </Button>
 
                   <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                    <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                      Or continue with
-                    </span>
+                    <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
                   </div>
 
-                  <Button
-                    variant="outline"
-                    className="w-full flex items-center gap-2 hover:shadow"
-                    type="button"
-                  >
+                  <Button variant="outline" className="w-full flex items-center gap-2 hover:shadow" type="button">
                     <Image
                       src="https://www.svgrepo.com/show/475656/google-color.svg"
                       width={100}
@@ -183,12 +151,8 @@ export function LoginForm({
                     className="drop-shadow-xl z-20 transform translate-y-3 rotate-[6deg] transition-all duration-500 group-hover:rotate-[9deg]"
                   />
                   <div className="text-center z-10 space-y-1">
-                    <h4 className="text-lg font-semibold text-gray-800">
-                      Manage Your Tasks
-                    </h4>
-                    <p className="text-xs text-gray-600">
-                      Stay focused. Stay productive.
-                    </p>
+                    <h4 className="text-lg font-semibold text-gray-800">Manage Your Tasks</h4>
+                    <p className="text-xs text-gray-600">Stay focused. Stay productive.</p>
                   </div>
                 </div>
               </div>
@@ -196,8 +160,7 @@ export function LoginForm({
           </Card>
 
           <div className="text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-            By clicking continue, you agree to our{' '}
-            <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+            By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
           </div>
         </div>
       </motion.div>
