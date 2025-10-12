@@ -1,17 +1,13 @@
 import http from '@/lib/http'
-import * as z from 'zod'
-
-export const loginPayloadSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, { message: 'Password must be at least 8 characters' })
-})
-
-export type LoginPayload = z.infer<typeof loginPayloadSchema>
+import { LoginPayload, RegisterPayload } from '@/schemaValidators/auth.validator'
 
 class AuthService {
   login(payload: LoginPayload) {
-    const parsedPayload = loginPayloadSchema.parse(payload)
-    return http.post<Response>('/api/v1/sign-in', parsedPayload)
+    return http.post<Response>('/api/v1/sign-in', payload)
+  }
+
+  register(payload: RegisterPayload) {
+    return http.post<Response>('/api/v1/register', payload)
   }
 }
 
