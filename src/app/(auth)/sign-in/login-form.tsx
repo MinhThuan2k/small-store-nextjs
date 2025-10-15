@@ -6,16 +6,21 @@ import { Card, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { cn } from '@/lib/utils'
-import { authService, LoginPayload } from '@/services/auth.service'
+import { authService } from '@/services/auth.service'
 import { useMutation } from '@tanstack/react-query'
 import { Lock, Mail } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 import Image from 'next/image'
-import { redirect, RedirectType } from 'next/navigation'
+import { redirect, RedirectType, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { LoginPayload } from '@/schemaValidators/auth.validator'
+import http from '@/lib/http'
+import envConfig from '@/lib/envConfig'
+import { ToastError, ToastSuccess } from '@/components/ui/Toast'
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -25,15 +30,22 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
   const mutation = useMutation({
     mutationFn: (data: LoginPayload) => authService.login(data),
     onSuccess: (data) => {
-      toast.success('Đăng nhập thành công!', {
-        autoClose: 1000,
-        onClose: () => {
-          redirect('/home', RedirectType.replace)
-        }
-      })
+      http
+        .post(
+          '/api/auth',
+          { session_token: data.payload?.token },
+          { baseUrl: envConfig.NEXT_PUBLIC_NEXTJS_API_ENDPOINT }
+        )
+        .then((res) => {
+          ToastSuccess('Đăng nhập thành công!')
+          router.replace('/home')
+        })
+        .catch((error) => {
+          ToastError(error.message || 'Đăng nhập thất bại!')
+        })
     },
     onError: (error: any) => {
-      toast.error(error.message || 'Đăng nhập thất bại!')
+      ToastError(error.message || 'Đăng nhập thất bại!')
     }
   })
 
@@ -52,11 +64,10 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
         <div className={cn('flex flex-col gap-6', className)} {...props}>
           <Card className="overflow-hidden shadow-md rounded-xl border border-gray-200">
             <CardContent className="grid p-0 md:grid-cols-2">
-              {/* Form */}
               <form
                 className={cn(
                   'p-6 md:p-8 bg-white transition-opacity',
-                  mutation.isPending || mutation.isSuccess ? 'pointer-events-none opacity-60' : ''
+                  mutation.isPending ? 'pointer-events-none opacity-60' : ''
                 )}
                 onSubmit={handleSubmit(onSubmit)}
               >
@@ -66,7 +77,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
                     <p className="text-muted-foreground">Login to your Acme Inc account</p>
                   </div>
 
-                  {/* Email */}
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <div className="relative">
@@ -84,7 +94,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
                     {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                   </div>
 
-                  {/* Password */}
                   <div className="grid gap-2">
                     <div className="flex items-center justify-between">
                       <Label htmlFor="password">Password</Label>
@@ -111,7 +120,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
                   <Button
                     type="submit"
                     className="w-full font-semibold transition hover:shadow-lg"
-                    disabled={mutation.isPending || mutation.isSuccess}
+                    disabled={mutation.isPending}
                   >
                     {mutation.isPending ? 'Đang đăng nhập...' : 'Đăng nhập'}
                   </Button>

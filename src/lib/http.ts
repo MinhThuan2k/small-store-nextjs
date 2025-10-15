@@ -42,9 +42,7 @@ const request = async <T = any>(
   options?: CustomOptions
 ): Promise<{ status: number; payload: T | null }> => {
   const baseUrl =
-    options?.baseUrl === undefined || !options?.baseUrl
-      ? envConfig.NEXT_PUBLIC_API_ENDPOINT
-      : options.baseUrl
+    options?.baseUrl === undefined || !options?.baseUrl ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl
 
   const fullUrl = (() => {
     try {
@@ -95,21 +93,13 @@ const http = {
   get<T = any>(url: string, options?: Omit<CustomOptions, 'body'>) {
     return request<T>('GET', url, options)
   },
-  post<T = any>(
-    url: string,
-    body?: any,
-    options?: Omit<CustomOptions, 'body'>
-  ) {
+  post<T = any>(url: string, body?: any, options?: Omit<CustomOptions, 'body'>) {
     return request<T>('POST', url, { ...options, body })
   },
   put<T = any>(url: string, body?: any, options?: Omit<CustomOptions, 'body'>) {
     return request<T>('PUT', url, { ...options, body })
   },
-  delete<T = any>(
-    url: string,
-    body?: any,
-    options?: Omit<CustomOptions, 'body'>
-  ) {
+  delete<T = any>(url: string, body?: any, options?: Omit<CustomOptions, 'body'>) {
     return request<T>('DELETE', url, { ...options, body })
   }
 }

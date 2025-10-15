@@ -2,7 +2,7 @@ import { HTTP_STATUS } from '@/lib/http'
 import { cookies } from 'next/headers'
 import { NextRequest } from 'next/server'
 
-export async function POST({ request }: { request: NextRequest }) {
+export async function POST(request: NextRequest) {
   const raw = await request.json()
 
   const sessionToken = raw?.session_token
